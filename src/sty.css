@@ -1,0 +1,55 @@
+
+body {
+    background-color: #1e1e1e;
+    color: #fff;
+    font-family: 'Overwatch', Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+  
+  .container {
+    text-align: center;
+    max-width: 600px;
+  }
+  
+  h1 {
+    font-size: 3rem;
+    color: #f99d1c;
+    margin-bottom: 20px;
+  }
+  
+  .controls {
+    margin-bottom: 20px;
+  }
+  
+  .btn {
+    background-color: #f99d1c;
+    border: none;
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 5px;
+    margin: 0 10px;
+    transition: background-color 0.3s;
+  }
+  
+  .btn:hover {
+    background-color: #e68a00;
+  }
+  
+  audio {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  .lyrics {
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 20px;
+    border-radius: 10px;
+    font-size: 1.2rem;
+  }
+  
