@@ -1,7 +1,7 @@
 const { app, BrowserWindow, dialog, ipcMain } = require('electron');
 const path = require('path');
 
-async function createWindow() {
+function createWindow() {
   const mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
@@ -18,9 +18,7 @@ async function createWindow() {
   ipcMain.handle('select-music-file', async () => {
     const result = await dialog.showOpenDialog(mainWindow, {
       properties: ['openFile'],
-      filters: [
-        { name: 'Audio Files', extensions: ['mp3', 'wav', 'ogg'] },
-      ],
+      filters: [{ name: 'Audio Files', extensions: ['mp3', 'wav', 'ogg'] }]
     });
     return result.filePaths[0];
   });
@@ -28,9 +26,7 @@ async function createWindow() {
   ipcMain.handle('select-lyrics-file', async () => {
     const result = await dialog.showOpenDialog(mainWindow, {
       properties: ['openFile'],
-      filters: [
-        { name: 'Lyrics Files', extensions: ['lrc', 'txt'] },
-      ],
+      filters: [{ name: 'Lyrics Files', extensions: ['lrc', 'txt'] }]
     });
     return result.filePaths[0];
   });

@@ -6,15 +6,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let audioFilePath = '';
   let lyrics = [];
-  let songTitle = '';
-  let artistName = '';
 
   selectMusicButton.addEventListener('click', async () => {
     audioFilePath = await window.electron.selectMusicFile();
     if (audioFilePath) {
       audioPlayer.src = audioFilePath;
-      songTitle = prompt('Enter song title:');
-      artistName = prompt('Enter artist name:');
     }
   });
 
@@ -34,27 +30,27 @@ document.addEventListener('DOMContentLoaded', () => {
       .then(response => response.text())
       .then(data => {
         lyrics = parseLRC(data);
-      });
+      })
+      .catch(error => console.error('Error loading lyrics file:', error));
   }
 
   function parseLRC(data) {
     const lines = data.split('\n');
-    const parsedLyrics = [];
+    const lyrics = [];
+    const timeRegex = /\[(\d{2}):(\d{2}\.\d{2})\]/;
+
     lines.forEach(line => {
-      const text = line.trim();
-      if (text) {
-        // Assume each line in LRC is formatted as [mm:ss.xx] lyrics
-        const timeMatch = text.match(/\[(\d{2}):(\d{2}\.\d{2})\]/);
-        if (timeMatch) {
-          const minutes = parseInt(timeMatch[1], 10);
-          const seconds = parseFloat(timeMatch[2]);
-          const time = minutes * 60 + seconds;
-          const lyricText = text.replace(/\[\d{2}:\d{2}\.\d{2}\]/, '').trim();
-          parsedLyrics.push({ time, text: lyricText });
-        }
+      const match = timeRegex.exec(line);
+      if (match) {
+        const minutes = parseInt(match[1], 10);
+        const seconds = parseFloat(match[2]);
+        const time = minutes * 60 + seconds;
+        const text = line.replace(timeRegex, '').trim();
+        lyrics.push({ time, text });
       }
     });
-    return parsedLyrics;
+
+    return lyrics;
   }
 
   function updateLyrics(currentTime, lyrics) {
@@ -65,6 +61,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (currentLyric) {
       lyricsDiv.innerText = currentLyric.text;
+    } else {
+      lyricsDiv.innerText = '';
     }
   }
 });
